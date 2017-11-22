@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Hello Serverless!</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz|Lato:300" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+        crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.5/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
+
+    <!-- Basic Styling -->
+    <style>
+        body {
+            font: normal 0.9em 'Open Sans', 'Lato', sans-serif;
+            background: #4c495a;
+            background: #554853;
+            font-weight: 300;
+            color: #fff;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Yanone Kaffeesatz', sans-serif;
+            text-transform: capitalize;
+            font-weight: 300;
+        }
+
+        .bg-dark {
+            background-color: #f1ede2!important;
+        }
+
+        .jumbotron {
+            color: #4c495a;
+            background-color: #f1ede2!important;
+        }
+
+        .jumbotron h1 {
+            color: #6f2b25;
+        }
+
+        .jumbotron-1 {
+            color: #333;
+            margin: 0px 0px;
+            background-color: #dfc098!important;
+        }
+
+        .jumbotron-2 {
+            color: #333;
+            margin: 0px 0px;
+            background-color: #7e7a8f!important;
+        }
+
+        .jumbotron-3 {
+            color: #333;
+            margin: 0px 0px;
+            background-color: #554853!important;
+        }
+
+        .card {
+            margin-bottom: 2rem;
+            border: 0;
+            color: #4c495a;
+        }
+
+        .card-text img {
+            width: 100%;
+        }
+
+        .btn-primary {
+            color: #fff;
+            background-color: #4c495a;
+            border-color: #4c495a;
+            color: #fff;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- Body attribute for vue to work on -->
+    <div id="body">
+        <!-- Unauthenticated Navbar -->
+        <nav class="navbar navbar-light bg-light" v-if="!user.authToken">
+            <a class="navbar-brand" href="#">
+                <img src="/staging/static/images/logo.png" height="30" class="d-inline-block align-top" alt="" />
+            </a>
+        </nav>
+
+        <!-- Authenticated Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" v-if="user.authToken">
+            <a class="navbar-brand" href="#">
+                <img src="/staging/static/images/logo.png" height="30" class="d-inline-block align-top" alt="" /> Aloha {{user.username}}!
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Help</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" v-on:click="logout">Logout</a>
+                        </strong>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Header with Error and Alert Messages -->
+        <div class="jumbotron" style=" margin-bottom: 0px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h1>{{message}}</h1>
+                        <p class="lead-text" v-html="description"></p>
+                    </div>
+                </div>
+                <!-- Error -->
+                <div class="row" v-if="error">
+                    <div class="col-12">
+                        <div class="alert alert-danger">{{error}}</div>
+                    </div>
+                </div>
+
+                <!-- Alert -->
+                <div class="row" v-if="msg">
+                    <div class="col-12">
+                        <div class="alert alert-info">{{msg}}</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+        <!-- Login Box and/or Add New Task -->
+        <div class="jumbotron-1 ">
+            <div class="container" v-if="!loggedIn" style="padding-top: 20px; padding-bottom: 20px;">
+                <div class="row">
+                    <!-- Image/Architecture -->
+                    <div class="col-12 col-md-8">
+                        <h3>Login Ready!</h3>
+                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+                        <img src="https://5xz8j3ac34.execute-api.us-east-1.amazonaws.com/staging/static/images/flow.png" width="100%" class="d-inline-block align-top"
+                            alt="" />
+                    </div>
+                    <!-- Login Form -->
+                    <div class="col-12 col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>Please Login!</h3>
+                                <p>For demo purpose you can use anything in username and password field. You will still need
+                                    to register but you can provide a spammy or not a valid email.</p>
+                                <div class="form" v-on:submit.prevent="authenticateUser">
+                                    <div class="msg form-group">
+                                        <label for="exampleInputEmail1">Email address</label>
+                                        <input type="text" class="form-control" placeholder="Email" v-model="user.username">
+                                    </div>
+                                    <div class="msg form-group">
+                                        <label for="exampleInputPassword1">Password</label>
+                                        <input type="password" class="form-control" placeholder="Password" v-model="user.password">
+                                    </div>
+                                    <p>Some information about privacy policy, terms etc.</p>
+                                    <button type="submit" class="btn btn-primary" v-on:click="authenticateUser">Login</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container" v-if="loggedIn">
+                <a href="#" style="display: block; text-align: center; color: #000; padding: 10px 0px; font-weight: bold;" class="" @click="addTask = !addTask">Add New Task</a>
+                <div class="row">
+                    <div class="col-12" v-if="addTask">
+                        <div class="form">
+                            <br/>
+                            <h3>Go ahead and fill in the details to create your task</h3>
+                            <div class="msg form-group">
+                                <label for="exampleInputEmail1">Title</label>
+                                <input type="text" class="form-control" v-model="newTask.title" />
+                            </div>
+                            <div class="msg form-group">
+                                <label for="">Description</label>
+                                <textarea class="form-control" style="height: 100px;" v-model="newTask.description"></textarea>
+                            </div>
+                            <div class="msg form-group">
+                                <label for="exampleInputEmail1">Icon</label>
+                                <input type="text" class="form-control" v-model="newTask.icon" />
+                            </div>
+                            <button class="btn btn-warning" type="button" v-on:click="createTask">Create</button>
+                            <br/>
+                            <br/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Register or List of Tasks -->
+        <div class="jumbotron-3">
+            <div class="container" style="padding-top: 20px; padding-bottom: 20px;">
+                <!-- Login -->
+                <div class="row" v-if="!loggedIn">
+                    <div class="col-12 col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>Register!</h3>
+                                <p>For demo purpose you can use anything in username and password field.</p>
+                                <div class="form" v-on:submit.prevent="authenticateUser">
+                                    <div class="msg form-group">
+                                        <label for="exampleInputEmail1">Name</label>
+                                        <input type="text" class="form-control" placeholder="Name" v-model="user.name">
+                                    </div>
+                                    <div class="msg form-group">
+                                        <label for="exampleInputEmail1">Email address</label>
+                                        <input type="text" class="form-control" placeholder="Email" v-model="user.username">
+                                    </div>
+                                    <div class="msg form-group">
+                                        <label for="exampleInputPassword1">Password</label>
+                                        <input type="password" class="form-control" placeholder="Password" v-model="user.password">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" v-on:click="registerUser">Register</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-8">
+                        <h3 class="text-white">Want to Create your own Tasks!</h3>
+                        <p class="text-white">It is a long established fact that a reader will be distracted by the readable content of a page
+                            when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal
+                            distribution of letters, as opposed to using 'Content here, content here', making it look like
+                            readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as
+                            their default model text, and a search for 'lorem ipsum' will uncover many web sites still in
+                            their infancy. Various versions have evolved over the years, sometimes by accident, sometimes
+                            on purpose (injected humour and the like).</p>
+                    </div>
+                    <!-- Form -->
+
+                </div>
+
+                <div v-if="loggedIn">
+                    <!-- Authenticated Details for the User -->
+                    <div class="row" style="margin-top: 20px;">
+                        <!-- My Tasks -->
+                        <div v-if="tasks" v-for="(task, $index) in tasks" class="col-12 col-md-6 col-lg-4" v-bind:id="$index">
+                            <div class="card">
+                                <div class="card-header">
+                                    <button v-on:click="deleteTask(task.id)" type="button" class="close" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <span v-bind:class="thClassValue(task.icon)" style="font-size: 18px; color: #4c495a; text-align:center;"></span>
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        {{ task.title }}
+                                    </h4>
+                                    <p class="card-text" v-html="task.description"></p>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="#" class="btn btn-primary fa fa-facebook"></a>
+                                    <a href="#" class="btn btn-primary fa fa-twitter"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- My Tasks -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Newsletter Common Footer -->
+        <div class="jumbotron-2">
+            <div class="container" style="padding-top: 20px; padding-bottom: 20px;">
+                <div class="row">
+                    <div class="col-12 col-md-8">
+                        <h3 class="text-white">Want to be in Touch?</h3>
+                        <p class="text-white">It is a long established fact that a reader will be distracted by the readable content of a page
+                            when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal
+                            distribution of letters, as opposed to using 'Content here, content here', making it look like
+                            readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as
+                            their default model text, and a search for 'lorem ipsum' will uncover many web sites still in
+                            their infancy. Various versions have evolved over the years, sometimes by accident, sometimes
+                            on purpose (injected humour and the like).</p>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>Newsletter!</h3>
+                                <p>For demo purpose you can use anything in username and password field.</p>
+                                <div class="form" v-on:submit.prevent="authenticateUser">
+                                    <div class="msg form-group">
+                                        <label for="exampleInputEmail1">Email address</label>
+                                        <input type="text" class="form-control" placeholder="Email" v-model="user.username">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Subscribe</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="footer" class="container-fluid">
+            <div class="row">
+                <nav class="navbar navbar-light bg-light col-12">
+                    <!-- <a class="navbar-brand small" href="#">Footer!</a> -->
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Help</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+    <!-- Body -->
+
+    <!-- Required Javascripts -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.11.5/sweetalert2.all.min.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.4"></script>
+
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script src="https://unpkg.com/vuex"></script>
+
+
+    <!-- VUE.js Details -->
+    <script type="text/javascript">
+        new Vue({
+            el: '#body',
+            data: {
+                show: false,
+                rootURL: "<Your ROOT URL for the Gateway>",
+                loading: true,
+                loggedIn: false,
+                addTask: false,
+                error: "",
+                msg: "",
+                message: 'Welcome To Serverless Website!',
+                description: "This is a demonstration of the serverless website. Upon login will return a oAuth token which will be then used by all subsequent request in the <code>Authorization</code> header. The AWS custom authorizer will validate the oAUTH token before processing the request",
+                tasks: [],
+                newTask: {},
+                user: {}
+            },
+            created: function () {
+                var storeUser = JSON.parse(localStorage.getItem('user'))
+
+                if (storeUser != undefined && storeUser.authToken != "" && storeUser.authToken != null) {
+                    this.user = storeUser
+                    Vue.http.headers.common['Authorization'] = 'Bearer ' + storeUser.authToken
+                    this.loggedIn = true
+                    this.getTasks();
+                } else {
+                    this.user = {}
+                }
+            },
+            methods: {
+                thClassValue: function (id) {
+                    var value = ['fa fa-' + id]
+                    if (this.orderKey === id) {
+                        value.push('active')
+                    }
+                    return value.join(' ')
+                },
+                logout: function () {
+                    localStorage.removeItem('user')
+                    this.user.authToken = "";
+                    this.user = {}
+                    this.tasks = []
+                    this.loggedIn = false
+                },
+                authenticateUser: function () {
+                    this.$http.post(this.rootURL + '/auth', { "username": this.user.username, "password": this.user.password }
+                    ).then(response => {
+                        this.error = ""
+                        this.msg = ""
+                        authToken = response.body.access_token
+                        this.user.authToken = authToken
+                        localStorage.setItem('user', JSON.stringify(this.user))
+                        Vue.http.headers.common['Authorization'] = 'Bearer ' + this.user.authToken;
+                        this.loggedIn = true
+                        this.getTasks();
+                    }, response => {
+                        // error callback
+                        this.error = response.body.message
+                    });
+                },
+                registerUser: function () {
+                    this.$http.post(this.rootURL + '/register', { "name": this.user.name, "username": this.user.username, "password": this.user.password }
+                    ).then(response => {
+                        this.error = ""
+                        this.msg = "User Created: " + response.body
+                    }, response => {
+                        this.error = response.body.message
+                        // error callback
+                    });
+                },
+                getTasks: function () {
+                    this.$http.get(this.rootURL + '/users/' + this.user.username + '/tasks').then(response => {
+                        this.tasks = response.body;
+                    }, response => {
+                        if (response.body == "" || response.status == 401) {
+                            this.logout();
+                            return
+                        }
+                        this.error = response.body
+                    });
+                },
+                createTask: function () {
+                    if (!$.trim(this.newTask.title)) {
+                        this.newTask = {}
+                        return
+                    }
+
+                    this.$http.post(this.rootURL + '/users/' + this.user.username + '/tasks',
+                        { "title": this.newTask.title, "description": this.newTask.description, "icon": this.newTask.icon }
+                    ).then(response => {
+                        this.addTask = false
+                        this.newTask = {}
+                        this.getTasks()
+                    }, response => {
+                        this.error = response.body
+                    });
+                },
+                deleteTask: function (id) {
+                    console.log(id)
+                    this.$http.delete(this.rootURL + '/users/' + this.user.username + '/tasks/' + id).then(response => {
+                        this.getTasks()
+                    }, response => {
+                        this.error = response.body
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

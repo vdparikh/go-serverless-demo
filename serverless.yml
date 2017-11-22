@@ -1,0 +1,142 @@
+service: Go-Serverless-Demo
+
+package:
+  artifact: ./handler.zip
+  exclude:
+    - node_modules/**
+
+provider:
+  name: aws
+  stage: ${opt:stage, self:custom.defaultStage}  
+  profile: ${self:custom.profiles.${self:provider.stage}}
+  custom:
+    defaultStage: dev
+    profiles:
+      dev: devProfile
+      prod: prodProfile
+  runtime: python2.7
+  environment:
+    DYNAMODB_TASK_TABLE: "SERVERLESS_TASKS"
+    DYNAMODB_USER_TABLE: "SERVERLESS_USERS"
+  region: us-east-1
+  memorySize: 512
+  deploymentBucket:
+    serverSideEncryption: AES256 # Enable encryption on S3 bucket
+  versionFunctions: false
+  stackTags: 
+    key: value
+
+custom:
+  apigs3:
+    dist: app/dist        # path within service to find content to upload (default: client/dist)
+    dotFiles: false       # include files beginning with a dot in resources and uploads (default: false)
+    topFiles: true        # create routes for top-level files in dist folder (default: false)
+    resourceName: static  # route path for static assets (default: assets)
+    resourcePath: /static # path prefix for assets in s3 bucket (default: '')
+
+functions:
+  login:
+    handler: handler.Handle
+    tags:
+      key: value
+    events:
+      - http:
+          path: auth
+          method: post
+          cors: true
+  register:
+    handler: handler.Handle
+    events:
+      - http:
+          path: register
+          method: post
+          cors: true
+  userTasksCreate:
+    handler: handler.Handle
+    events:
+      - http:
+          path: users/{userId}/tasks
+          method: post
+          authorizer:
+            name: authorizerFunc
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
+            type: token
+          cors: true
+  userTasksGet:
+    handler: handler.Handle
+    events:
+      - http:
+          path: users/{userId}/tasks
+          method: get
+          authorizer:
+            name: authorizerFunc
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
+            type: token
+          cors: true
+  userTaskGet:
+    handler: handler.Handle
+    events:
+      - http:
+          path: users/{userId}/tasks/{taskId}
+          method: get
+          authorizer:
+            name: authorizerFunc
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
+            type: token
+          cors: true          
+  userTasksDelete:
+    handler: handler.Handle
+    events:
+      - http:
+          path: users/{userId}/tasks/{taskId}
+          method: delete
+          authorizer:
+            name: authorizerFunc
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
+            type: token
+          cors: true          
+  authorizerFunc:
+    handler: handler.VerifyHandler
+
+resources:
+  Resources:
+    TasksDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DYNAMODB_TASK_TABLE}
+    UsersDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: username
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: username
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DYNAMODB_USER_TABLE}        
+
+
+plugins:
+ - serverless-apig-s3

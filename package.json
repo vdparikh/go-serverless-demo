@@ -1,0 +1,18 @@
+{
+  "name": "go-serverless-demo",
+  "version": "1.0.0",
+  "description": "Go Serverless Demo s",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {
+    "serverless-apig-s3": "^1.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
