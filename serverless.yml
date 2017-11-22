@@ -9,11 +9,7 @@ provider:
   name: aws
   stage: ${opt:stage, self:custom.defaultStage}  
   profile: ${self:custom.profiles.${self:provider.stage}}
-  custom:
-    defaultStage: dev
-    profiles:
-      dev: devProfile
-      prod: prodProfile
+  role: "iam_role_you_want_to_use"
   runtime: python2.7
   environment:
     DYNAMODB_TASK_TABLE: "SERVERLESS_TASKS"
@@ -27,6 +23,10 @@ provider:
     key: value
 
 custom:
+  defaultStage: dev
+  profiles:
+    dev: devProfile
+    prod: prodProfile
   apigs3:
     dist: app/dist        # path within service to find content to upload (default: client/dist)
     dotFiles: false       # include files beginning with a dot in resources and uploads (default: false)
