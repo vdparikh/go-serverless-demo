@@ -1,7 +1,7 @@
 service: Go-Serverless-Demo
 
 package:
-  artifact: ./handler.zip
+  artifact: /Users/vishal/work/src/go-serverless-demo/handler.zip
   exclude:
     - node_modules/**
 
@@ -9,7 +9,6 @@ provider:
   name: aws
   stage: ${opt:stage, self:custom.defaultStage}  
   profile: ${self:custom.profiles.${self:provider.stage}}
-  role: "iam_role_you_want_to_use"
   runtime: python2.7
   environment:
     DYNAMODB_TASK_TABLE: "SERVERLESS_TASKS"
@@ -25,7 +24,7 @@ provider:
 custom:
   defaultStage: dev
   profiles:
-    dev: devProfile
+    dev: default
     prod: prodProfile
   apigs3:
     dist: app/dist        # path within service to find content to upload (default: client/dist)

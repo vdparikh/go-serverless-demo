@@ -92,7 +92,7 @@
         <!-- Unauthenticated Navbar -->
         <nav class="navbar navbar-light bg-light" v-if="!user.authToken">
             <a class="navbar-brand" href="#">
-                <img src="/staging/static/images/logo.png" height="30" class="d-inline-block align-top" alt="" />
+                <img src="/dev/static/images/logo.png" height="30" class="d-inline-block align-top" alt="" />
             </a>
         </nav>
 
@@ -365,7 +365,7 @@
             el: '#body',
             data: {
                 show: false,
-                rootURL: "<Your ROOT URL for the Gateway>",
+                rootURL: "https://xxxxxxxx.execute-api.us-east-1.amazonaws.com/dev",
                 loading: true,
                 loggedIn: false,
                 addTask: false,

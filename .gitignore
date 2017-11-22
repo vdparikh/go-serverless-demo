@@ -1,0 +1,5 @@
+handler.zip
+handler.so
+node_modules
+.serverless
+
