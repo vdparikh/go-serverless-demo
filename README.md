@@ -1,5 +1,5 @@
-
 ![Logo](docs/logo.png)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fvdparikh%2Fgo-serverless-demo.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fvdparikh%2Fgo-serverless-demo?ref=badge_shield)
 
 # Go-Serverless-Demo
 This is not a utility but a sample project which showcases 3-tier AWS serverless architecture. The three-tier architecture is a popular pattern for user-facing applications. The tiers that comprise this architecture include the presentation tier, the logic tier, and the data tier.
@@ -53,3 +53,7 @@ The UI is neatly designed using bootstrap 4.0 and vue.js. It allows login/regist
 
 ### TODO
 - Update test cases (I hate doing tests for my weekend projects!)
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fvdparikh%2Fgo-serverless-demo.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fvdparikh%2Fgo-serverless-demo?ref=badge_large)
