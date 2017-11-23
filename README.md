@@ -4,7 +4,7 @@
 # Go-Serverless-Demo
 This is not a utility but a sample project which showcases 3-tier AWS serverless architecture. The three-tier architecture is a popular pattern for user-facing applications. The tiers that comprise this architecture include the presentation tier, the logic tier, and the data tier.
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/vdparikh/go-serverless-demo)](https://goreportcard.com/report/github.com/vdparikh/go-serverless-demo)
+[![Go Report Card](https://goreportcard.com/badge/github.com/vdparikh/go-serverless-demo)](https://goreportcard.com/report/github.com/vdparikh/go-serverless-demo) [![Build Status](https://travis-ci.org/vdparikh/go-serverless-demo.svg?branch=master)](https://travis-ci.org/vdparikh/go-serverless-demo)
 
 ### Architecture
 Below is a quick drawing on the architecture of the project
