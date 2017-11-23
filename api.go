@@ -61,7 +61,7 @@ func getMD5Hash(text string) string {
 func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 	w.Header().Set("Content-Type", "application/json")
 	// Even if you enable CORS in API Gateway, the integration response aka the API response from Lambda
-	// needs to return the headers for it to wokr
+	// needs to return the headers for it to work
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
@@ -173,7 +173,7 @@ func register(w http.ResponseWriter, r *http.Request) {
 func getTasks(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
-	// Query DB for all tasks assocaited with the userId coming in the URI /users/<userId>/tasks
+	// Query DB for all tasks associated with the userId coming in the URI /users/<userId>/tasks
 	// The authorizer will have already perform validation on request validity and so no need for extra checks here
 	var results []UserTask
 	err := taskTable.Scan().Filter("'userId' = ?", vars["userId"]).All(&results)
