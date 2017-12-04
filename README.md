@@ -1,10 +1,13 @@
+<p align="center"><img src="docs/logo.png" /></p>
+<h3 align="center">Go Serverless Demo</h3>
+<p align="center">This is not a utility but a sample project which showcases 3-tier AWS serverless architecture. The three-tier architecture is a popular pattern for user-facing applications. The tiers that comprise this architecture include the presentation tier, the logic tier, and the data tier.</p>
+<p align="center">
+<a target="_blank" href="https://goreportcard.com/report/github.com/vdparikh/go-serverless-demo"><img src="https://goreportcard.com/badge/github.com/vdparikh/go-serverless-demo"></a> <a target="_blank" href="https://travis-ci.org/vdparikh/go-serverless-demo"><img src="https://travis-ci.org/vdparikh/go-serverless-demo.svg?branch=master"></a> <a target="_blank" href="https://app.fossa.io/projects/git%2Bgithub.com%2Fvdparikh%2Fgo-serverless-demo?ref=badge_shield"><img src="https://app.fossa.io/api/projects/git%2Bgithub.com%2Fvdparikh%2Fgo-serverless-demo.svg?type=shield"></a>
 
-![Logo](docs/logo.png)
+</p>
 
-# Go-Serverless-Demo
-This is not a utility but a sample project which showcases 3-tier AWS serverless architecture. The three-tier architecture is a popular pattern for user-facing applications. The tiers that comprise this architecture include the presentation tier, the logic tier, and the data tier.
+---
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/vdparikh/go-serverless-demo)](https://goreportcard.com/report/github.com/vdparikh/go-serverless-demo) [![Build Status](https://travis-ci.org/vdparikh/go-serverless-demo.svg?branch=master)](https://travis-ci.org/vdparikh/go-serverless-demo) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fvdparikh%2Fgo-serverless-demo.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fvdparikh%2Fgo-serverless-demo?ref=badge_shield)
 
 ### Architecture
 Below is a quick drawing on the architecture of the project
